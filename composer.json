@@ -18,5 +18,10 @@
     "psr-4": {
       "Blockify\\Icons\\": "src/"
     }
+  },
+  "require": {
+    "blockify/utilities": "dev-main",
+    "blockify/dom": "dev-main",
+    "enshrined/svg-sanitize": "dev-master"
   }
 }
