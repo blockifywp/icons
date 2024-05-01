@@ -176,7 +176,6 @@ class Icon {
 
 		$svg->insertBefore( $title_tag, $svg->firstChild );
 
-
 		if ( $size ) {
 			$has_unit = Str::contains_any( (string) $size, 'px', 'em', 'rem', '%', 'vh', 'vw' );
 
