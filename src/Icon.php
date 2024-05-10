@@ -50,53 +50,26 @@ class Icon {
 	 * @return array <string, string>
 	 */
 	public static function get_icon_sets(): array {
-		$utility_dir    = dirname( __DIR__ ) . '/public/icons/';
+		$package_dir    = dirname( __DIR__ ) . '/public/icons/';
 		$template_dir   = get_template_directory() . '/assets/icons/';
 		$stylesheet_dir = get_stylesheet_directory() . '/assets/icons/';
 
 		$dirs = [
-			...glob( $utility_dir . '*', GLOB_ONLYDIR ),
+			...glob( $package_dir . '*', GLOB_ONLYDIR ),
 			...glob( $template_dir . '*', GLOB_ONLYDIR ),
 			...glob( $stylesheet_dir . '*', GLOB_ONLYDIR ),
 		];
 
-		$found = [];
-
-		foreach ( $dirs as $dir ) {
-			$slug = basename( $dir );
-
-			$found[] = [
-				'label' => Str::title_case( $slug ),
-				'value' => $slug,
-			];
-		}
-
-		$db_option = get_option( 'blockify' )['iconSets'] ?? null;
-		$options   = $db_option ?: $found;
 		$icon_sets = [];
 
-		foreach ( $options as $option ) {
-			$value = $option['value'] ?? null;
+		foreach ( $dirs as $dir ) {
+			$set = basename( $dir );
 
-			if ( is_null( $value ) ) {
+			if ( ! is_dir( $dir ) ) {
 				continue;
 			}
 
-			$utility = $utility_dir . $value;
-			$parent  = $template_dir . $value;
-			$child   = $stylesheet_dir . $value;
-
-			if ( is_dir( $utility ) ) {
-				$icon_sets[ $value ] = $utility;
-			}
-
-			if ( is_dir( $parent ) ) {
-				$icon_sets[ $value ] = $parent;
-			}
-
-			if ( is_dir( $child ) ) {
-				$icon_sets[ $value ] = $child;
-			}
+			$icon_sets[ $set ] = $dir;
 		}
 
 		/**
